@@ -19,7 +19,9 @@ export const KakaoMap = ({markerShow, buttonState}) => {
     useEffect(() => {
         if(toDrawMarkerList.length === 2) {
             setEdgeList(prevState => [...prevState, toDrawMarkerList]);
-            // /** + 마커 연설 상태 해제 시키는 코드 추가 필요*/
+            /** todo +마커 연설 상태 해제 시키는 코드 추가 필요
+             * 모달 진행하면서 하기
+             * */
             setToDrawMarkerList([]);
         }
     }, [toDrawMarkerList])
@@ -38,7 +40,10 @@ export const KakaoMap = ({markerShow, buttonState}) => {
                     buttonState={buttonState}
                     setToDrawMarkerList={setToDrawMarkerList}
                     markerList={markerList}
-                    setMarkerList={setMarkerList} />
+                    setMarkerList={setMarkerList}
+                    edgeList={edgeList}
+                    setEdgeList={setEdgeList}
+                />
             ) : null}
             <Line edgeList={edgeList}/>
         </Map>
