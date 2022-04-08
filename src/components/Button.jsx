@@ -1,5 +1,4 @@
 import '../styles/Button.css';
-import {useState} from "react";
 
 export const Button = ({name, state, setState}) => {
 
