@@ -7,6 +7,7 @@ import {Line} from "./Line";
 import {useMapClick} from "../hooks/useMapClick";
 import {useMapUpdate} from "../hooks/useMapUpdate";
 import {useAddEdge} from "../hooks/useAddEdge";
+import {Modal} from "./Modal";
 
 export const KakaoMap = ({markerShow, buttonState, setButtonState}) => {
 
@@ -16,11 +17,11 @@ export const KakaoMap = ({markerShow, buttonState, setButtonState}) => {
 
     const mapClick = useMapClick(setMarkerList);
     useMapUpdate(buttonState, setEdgeList, setMarkerList, setButtonState);
-    useAddEdge(toDrawMarkerList, setEdgeList, setToDrawMarkerList);
+    useAddEdge(toDrawMarkerList, setEdgeList);
 
     return (
         <Map
-            className={'kakao-map'}
+            className={`kakao-map ${toDrawMarkerList.length === 2 ? 'kakao-map-modal-open' : null}`}
             center={kakaoMapStart}
             level={kakaoMapLevel}
             onClick={buttonState.markerDraw ? mapClick : null}
@@ -38,6 +39,10 @@ export const KakaoMap = ({markerShow, buttonState, setButtonState}) => {
                 />
             ) : null}
             <Line edgeList={edgeList}/>
+            <Modal
+                toDrawMarkerList={toDrawMarkerList}
+                setToDrawMarkerList={setToDrawMarkerList}
+            />
         </Map>
     )
 }

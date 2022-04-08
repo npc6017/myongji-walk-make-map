@@ -8,5 +8,5 @@ export const useMapUpdate = (buttonState, setEdgeList, setMarkerList,setButtonSt
             setMarkerList(NODE_INITIALIZE);
             setButtonState.setMapUpdate(false);
         }
-    }, [buttonState.mapUpdate, setButtonState, setEdgeList, setMarkerList])
+    }, [buttonState.mapUpdate, setButtonState, setEdgeList, setMarkerList]);
 }

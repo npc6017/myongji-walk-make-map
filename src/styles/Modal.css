@@ -1,0 +1,43 @@
+.modal {
+    position: absolute;
+    z-index: 999;
+    border-radius: 10px 10px 0 0;
+    background-color: #C4C4C4;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+}
+.modal-open {
+    height: 40%;
+    transition: all 0.3s;
+}
+.modal-close {
+    height: 0;
+    transition: all 0.3s;
+}
+
+.modal-header {
+    margin: 10px 0 0 10px
+}
+
+.table {
+    width: 100%;
+    margin: 20px auto;
+}
+
+.table td {
+    padding-top: 10px;
+    text-align: center;
+}
+
+.button-modal {
+    display: block;
+    width: 120px;
+    height: 40px;
+    margin: 0 auto;
+}
+
+input[type=radio] {
+    width: 30px;
+    height: 30px;
+}
