@@ -5,16 +5,24 @@ import {useCallback, useEffect, useState} from "react";
 import {Marker} from "./Marker";
 import {Line} from "./Line";
 
-export const KakaoMap = ({markerShow, buttonState}) => {
+export const KakaoMap = ({markerShow, buttonState, setButtonState}) => {
 
     const [markerList, setMarkerList] = useState(NODE_INITIALIZE);
-    const [edgeList, setEdgeList] = useState(EDGE_INITIALIZE)
+    const [edgeList, setEdgeList] = useState([])
     const [toDrawMarkerList, setToDrawMarkerList] = useState([]);
 
     const mapClick = useCallback((map, mouse) => {
         setMarkerList((prevState =>
             [...prevState, { lat: mouse.latLng.Ma, lng: mouse.latLng.La }]))
-    }, [markerList]);
+    }, []);
+
+    /** TODO 지도 업데이트 API 콜하여 응답 데이터로 다시 그리기 */
+    useEffect(() => {
+        if(buttonState.mapUpdate === true) {
+            setEdgeList(EDGE_INITIALIZE);
+            setButtonState.setMapUpdate(false);
+        }
+    }, [buttonState.mapUpdate, setButtonState])
 
     useEffect(() => {
         if(toDrawMarkerList.length === 2) {

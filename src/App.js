@@ -7,16 +7,21 @@ function App() {
     const [markerDraw, setMarkerDraw] = useState(false);
     const [edgeDraw, setEdgeDraw] = useState(false);
     const [markerDelete, setMarkerDelete] = useState(false);
+    const [mapUpdate, setMapUpdate] = useState(false);
 
+    const buttonState = {markerShow: markerShow, markerDraw: markerDraw, edgeDraw: edgeDraw, markerDelete: markerDelete, mapUpdate};
+    const setButtonState = {setMarkerShow: setMarkerShow, setMarkerDraw: setMarkerDraw, setEdgeDraw: setEdgeDraw, setMarkerDelete: setMarkerDelete, setMapUpdate}
 
   return (
     <div>
         <Header
-            state={{markerShow: markerShow, markerDraw: markerDraw, edgeDraw: edgeDraw, markerDelete: markerDelete}}
-            setState={{setMarkerShow: setMarkerShow, setMarkerDraw: setMarkerDraw, setEdgeDraw: setEdgeDraw, setMarkerDelete: setMarkerDelete}} />
+            buttonState={buttonState}
+            setButtonState={setButtonState} />
         <KakaoMap
             markerShow={markerShow}
-            buttonState={{markerShow: markerShow, markerDraw: markerDraw, edgeDraw: edgeDraw, markerDelete: markerDelete}}/>
+            buttonState={buttonState}
+            setButtonState={setButtonState}
+        />
     </div>
   );
 }
