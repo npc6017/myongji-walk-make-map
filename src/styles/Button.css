@@ -1,0 +1,12 @@
+.button {
+    font-size: 12px;
+    border-radius: 10px;
+}
+
+.button-marker-start {
+    background-color: #aae0ca;
+}
+
+.button-marker-end {
+    background-color: #F4F4F4;
+}
