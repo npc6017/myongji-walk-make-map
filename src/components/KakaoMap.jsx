@@ -1,41 +1,22 @@
 import {Map} from "react-kakao-maps-sdk";
 import '../styles/KakaoMap.css'
-import {kakaoMapStart, kakaoMapLevel, NODE_INITIALIZE, EDGE_INITIALIZE} from "../constants/KakaoMap";
-import {useCallback, useEffect, useState} from "react";
+import {kakaoMapStart, kakaoMapLevel} from "../constants/KakaoMap";
+import {useState} from "react";
 import {Marker} from "./Marker";
 import {Line} from "./Line";
+import {useMapClick} from "../hooks/useMapClick";
+import {useMapUpdate} from "../hooks/useMapUpdate";
+import {useAddEdge} from "../hooks/useAddEdge";
 
 export const KakaoMap = ({markerShow, buttonState, setButtonState}) => {
 
-    const [markerList, setMarkerList] = useState(NODE_INITIALIZE);
+    const [markerList, setMarkerList] = useState([]);
     const [edgeList, setEdgeList] = useState([])
     const [toDrawMarkerList, setToDrawMarkerList] = useState([]);
 
-    /** TODO 노드(마커) 추가 API 콜하기 */
-    const mapClick = useCallback((map, mouse) => {
-        setMarkerList((prevState =>
-            [...prevState, { lat: mouse.latLng.Ma, lng: mouse.latLng.La }]))
-    }, []);
-
-    /** TODO 지도 업데이트 API 콜하여 응답 데이터로 다시 그리기 */
-    useEffect(() => {
-        if(buttonState.mapUpdate === true) {
-            setEdgeList(EDGE_INITIALIZE);
-            setButtonState.setMapUpdate(false);
-        }
-    }, [buttonState.mapUpdate, setButtonState])
-
-    useEffect(() => {
-        /** TODO 엣지 추가 API 콜하기 */
-        if(toDrawMarkerList.length === 2 &&
-            toDrawMarkerList[0].lat !== toDrawMarkerList[1].lat && toDrawMarkerList[0].lng !== toDrawMarkerList[1].lng) { // 같은 마커 두개는 안된다.
-            setEdgeList(prevState => [...prevState, toDrawMarkerList]);
-            /** todo +마커 연설 상태 해제 시키는 코드 추가 필요
-             * 모달 진행하면서 하기
-             * */
-            setToDrawMarkerList([]);
-        }
-    }, [toDrawMarkerList])
+    const mapClick = useMapClick(setMarkerList);
+    useMapUpdate(buttonState, setEdgeList, setMarkerList, setButtonState);
+    useAddEdge(toDrawMarkerList, setEdgeList, setToDrawMarkerList);
 
     return (
         <Map

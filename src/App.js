@@ -1,4 +1,3 @@
-import './App.css';
 import {KakaoMap} from "./components/KakaoMap";
 import {Header} from "./components/Header";
 import {useState} from "react";
