@@ -42,6 +42,7 @@ export const KakaoMap = ({markerShow, buttonState, setButtonState}) => {
             <Modal
                 toDrawMarkerList={toDrawMarkerList}
                 setToDrawMarkerList={setToDrawMarkerList}
+                setEdgeList={setEdgeList}
             />
         </Map>
     )

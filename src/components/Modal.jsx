@@ -3,7 +3,7 @@ import {useCallback, useState} from "react";
 import axios from "axios";
 import {ModalWeight} from "./ModalWeight";
 
-export const Modal = ({toDrawMarkerList, setToDrawMarkerList}) => {
+export const Modal = ({toDrawMarkerList, setToDrawMarkerList, setEdgeList}) => {
 
     const [streetLamp, setStreetLamp] = useState(0); // 0 ~ 5
     const [lowHill, setLowHill] = useState(0); // 0 ~ 5
@@ -12,38 +12,52 @@ export const Modal = ({toDrawMarkerList, setToDrawMarkerList}) => {
 
     /** TODO 엣지 추가 API CALL - 테스트만 진행해보면 된다. */
     const sendEdge = useCallback(() => {
-        // axios.post("", {
-        //     nodeList: toDrawMarkerList,
-        //     streetLamp: streetLamp,
-        //     lowHill: lowHill,
-        //     lowRain: lowRain,
-        //     lowStair: lowStair,
-        // }).then(() => {
-        //     setToDrawMarkerList([]);
-        //     setStreetLamp(0);
-        //     setLowHill(0);
-        //     setLowStair(0);
-        // }).catch((err) => {
-        //     console.log(err.response.data);
-        // })
-        console.log({ // 요청 데이터 확인용, 나중에 삭제필요!
-            nodeList: toDrawMarkerList,
-            streetLamp: streetLamp,
-            lowHill: lowHill,
-            lowRain: lowRain,
-            lowStair: lowStair,
-        });
-        setToDrawMarkerList([]);
-        setStreetLamp(0);
-        setLowHill(0);
-        setLowStair(0);
-    }, [toDrawMarkerList, streetLamp, lowHill, lowRain, lowStair, setToDrawMarkerList]);
+        console.log(toDrawMarkerList[0]);
+        console.log(toDrawMarkerList[1]);
+        const req = {
+            edgeWeightDtoList: [
+                {
+                    weightCode: "LOW_HILL",
+                    weightValue: lowHill
+                }, {
+                    weightCode: "STREET_LAMP",
+                    weightValue: streetLamp
+                }, {
+                    weightCode: "LOW_RAIN",
+                    weightValue: lowRain
+                }, {
+                    weightCode: "LOW_STAIR",
+                    weightValue: lowStair
+                }
+            ],
+            endNode: toDrawMarkerList[1].id,
+            startNode: toDrawMarkerList[0].id
+        };
+        axios.post("/map/edge", req)
+            .then((res) => {
+                console.log(toDrawMarkerList[1].lat)
+                const edge = [
+                    {lat: toDrawMarkerList[0].lat, lng: toDrawMarkerList[0].lng},
+                    {lat: toDrawMarkerList[1].lat, lng: toDrawMarkerList[1].lng}
+                ]
+                setEdgeList(prevState => [...prevState, edge]);
+            }).catch((err) => {
+            console.log(err.response);
+        }).finally(() => {
+            setToDrawMarkerList([]);
+        })
+    }, [toDrawMarkerList, streetLamp, lowHill, lowRain, lowStair, setToDrawMarkerList,setEdgeList]);
 
-    return(
-        <div className={`modal ${toDrawMarkerList.length === 2 ? "modal-open" : "modal-close"}`} >
+    return (
+        <div className={`modal ${toDrawMarkerList.length === 2 ? "modal-open" : "modal-close"}`}>
             <h2 className="modal-header">가중치 설정</h2>
             <ModalWeight
-                setState={{setStreetLamp: setStreetLamp, setLowHill: setLowHill, setLowRain: setLowRain, setLowStair: setLowStair}}
+                setState={{
+                    setStreetLamp: setStreetLamp,
+                    setLowHill: setLowHill,
+                    setLowRain: setLowRain,
+                    setLowStair: setLowStair
+                }}
             />
             <button
                 className={`${toDrawMarkerList.length === 2 ? "button-modal" : null}`}

@@ -4,7 +4,7 @@ import axios from "axios";
 /** TODO 노드(마커) 추가 API 콜하기 - 테스트만 진행해보면 된다.*/
 export const useMapClick = (setMarkerList) => {
     return useCallback((map, mouse) => {
-        const marker = { lat: mouse.latLng.Ma, lng: mouse.latLng.La };
+        const marker = { lat: mouse.latLng.Ma.toFixed(13), lng: mouse.latLng.La.toFixed(13) };
         axios.post("/map/node", {
             latitude: mouse.latLng.Ma, longitude: mouse.latLng.La
         }).then((res) => {
