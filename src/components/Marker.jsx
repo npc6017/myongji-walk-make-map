@@ -8,11 +8,11 @@ export const Marker = (
         markerList, setMarkerList, edgeList, setEdgeList
     }) => {
 
-    /** TODO 노드(마커) 삭제 API 콜하기 - 테스트만 진행해보면 된다. */
     const markerDelete = useCallback((marker) => {
-        const latLng = {lat: marker.getPosition().getLat().toFixed(13), lng: marker.getPosition().getLng().toFixed(13)};
+        const latLng = {lat: String(marker.getPosition().getLat().toFixed(13)), lng: String(marker.getPosition().getLng().toFixed(13))};
+        markerList.forEach((value) => console.log(value))
         const findMarker = markerList.filter((value) => value.lat === latLng.lat && value.lng === latLng.lng);
-        axios.delete(`/map/edge/${findMarker[0].id}`)
+        axios.delete(`/map/node/${findMarker[0].id}`)
             .then((res) => {
                 console.log(`${findMarker[0].id} Delete ${res.data}`);
                 setMarkerList(markerList.filter(value => value.lat !== latLng.lat && value.lng !== latLng.lng));

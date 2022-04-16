@@ -10,7 +10,6 @@ export const Modal = ({toDrawMarkerList, setToDrawMarkerList, setEdgeList}) => {
     const [lowRain, setLowRain] = useState(0) // 0 ~ 5
     const [lowStair, setLowStair] = useState(0); // 0 ~ 5
 
-    /** TODO 엣지 추가 API CALL - 테스트만 진행해보면 된다. */
     const sendEdge = useCallback(() => {
         console.log(toDrawMarkerList[0]);
         console.log(toDrawMarkerList[1]);
@@ -34,7 +33,7 @@ export const Modal = ({toDrawMarkerList, setToDrawMarkerList, setEdgeList}) => {
             startNode: toDrawMarkerList[0].id
         };
         axios.post("/map/edge", req)
-            .then((res) => {
+            .then(() => {
                 console.log(toDrawMarkerList[1].lat)
                 const edge = [
                     {lat: toDrawMarkerList[0].lat, lng: toDrawMarkerList[0].lng},
